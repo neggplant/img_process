@@ -229,7 +229,7 @@ y = count
 plt.bar(x,y,0.9,alpha=1,color='b')
 
 
-# 直方图均衡化
+# 直方图均衡化 使用255*像素的累计概率
 gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 dst = cv2.equalizeHist(gray)
 
