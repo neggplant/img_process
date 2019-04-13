@@ -15,7 +15,8 @@ class Hog_descriptor():
         assert type(self.bin_size) == int, "bin_size should be integer,"
         assert type(self.cell_size) == int, "cell_size should be integer,"
         assert type(self.angle_unit) == int, "bin_size should be divisible by 360"
-
+    
+    #计算hog特征，并返回hog特征和图片
     def extract(self):
         height, width = self.img.shape
         gradient_magnitude, gradient_angle = self.global_gradient()
@@ -45,14 +46,15 @@ class Hog_descriptor():
                     block_vector = normalize(block_vector, magnitude)
                 hog_vector.append(block_vector)
         return hog_vector, hog_image
-
+    
+    #计算图像梯度
     def global_gradient(self):
         gradient_values_x = cv2.Sobel(self.img, cv2.CV_64F, 1, 0, ksize=5)
         gradient_values_y = cv2.Sobel(self.img, cv2.CV_64F, 0, 1, ksize=5)
         gradient_magnitude = cv2.addWeighted(gradient_values_x, 0.5, gradient_values_y, 0.5, 0)
         gradient_angle = cv2.phase(gradient_values_x, gradient_values_y, angleInDegrees=True)
         return gradient_magnitude, gradient_angle
-
+    
     def cell_gradient(self, cell_magnitude, cell_angle):
         orientation_centers = [0] * self.bin_size
         for i in range(cell_magnitude.shape[0]):
@@ -63,14 +65,16 @@ class Hog_descriptor():
                 orientation_centers[min_angle] += (gradient_strength * (1 - (mod / self.angle_unit)))
                 orientation_centers[max_angle] += (gradient_strength * (mod / self.angle_unit))
         return orientation_centers
-
+    
+    #计算距离最近的bin
     def get_closest_bins(self, gradient_angle):
         idx = int(gradient_angle / self.angle_unit)
         mod = gradient_angle % self.angle_unit
         if idx == self.bin_size:
             return idx - 1, (idx) % self.bin_size, mod
         return idx, (idx + 1) % self.bin_size, mod
-
+    
+    #做出hog特征的图像
     def render_gradient(self, image, cell_gradient):
         cell_width = self.cell_size / 2
         max_mag = np.array(cell_gradient).max()
