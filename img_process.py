@@ -286,3 +286,4 @@ while True:
     cv2.imshow('dst',dst)
     if cv2.waitKey(10) ==27:
         break
+cv2.destroyAllWindows()                        
