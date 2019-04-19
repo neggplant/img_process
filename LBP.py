@@ -2,12 +2,12 @@
 def LBP(src):
     '''
     param src:灰度图像
-    return:
+    return：返回特征图像
     '''
     height = src.shape[0]
     width = src.shape[1]
     dst = src.copy()
-
+    
     lbp_value = np.zeros((1,8), dtype=np.uint8)
     neighbours = np.zeros((1,8), dtype=np.uint8)
     for x in range(1, width-1):
