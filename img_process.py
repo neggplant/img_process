@@ -26,25 +26,22 @@ matScale = np.float32([[0.5,0,0],[0,0.5,0]])
 dst = cv2.warpAffine(img,matScale,(int(width/2),int(height/2)))
 
 
-# 反射过程
-#src 3->dst 3 (左上角 左下角 右上角)
+# 仿射过程提供原始图片和目标图片(左上角 左下角 右上角)点坐标
 matSrc = np.float32([[0,0],[0,height-1],[width-1,0]])
 matDst = np.float32([[50,50],[300,height-200],[width-300,100]])
-#组合
+# 实现放射变换
 matAffine = cv2.getAffineTransform(matSrc,matDst)# mat 1 src 2 dst
 dst = cv2.warpAffine(img,matAffine,(width,height))
 
-
-
-
 # 图片旋转
-matRotate = cv2.getRotationMatrix2D((height*0.5,width*0.5),45,1)
-#100*100 25 
-dst = cv2.warpAffine(img,matRotate,(height,width))
+# 先设置旋转中心和旋转角度，逆时针旋转,
+# 旋转后实际的大小，旋转后会使图像丢失，可将图像缩小，空余部分使用（0,0,0）填充。
+matRotate = cv2.getRotationMatrix2D((width*0.5, height*0.5), 10, 0.5)
+dst = cv2.warpAffine(img, matRotate, (width, height))
 
 
 # 灰度处理
-dst = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+dst = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 # 使用bgr均值
 dst = np.zeros((height,width,3),np.uint8)
 for i in range(0,height):
