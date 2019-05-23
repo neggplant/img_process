@@ -1,5 +1,6 @@
 # img_process
 Hog.py和lbp.py是特征提取函数    
+read_images_and_label.py 返回文件夹中的以jpg结尾的图片和标签（0、1、2……）    
 crop_picture.py是将图片切割成指定的几块大小，存入到指定文件夹    
 data_argumentation.py是进行数据增强    
 img_process.py中包含图像的基本变换，仿射变换、马赛克、毛玻璃、浮雕效果、图片融合、Conny边缘检测、sobel算子原理    
