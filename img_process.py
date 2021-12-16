@@ -25,6 +25,13 @@ dst1 = cv2.resize(img, (100, 100), interpolation = cv2.INTER_LINEAR )
 
 #图片剪切直接使用slice
 dst = img[100:200, 100:300]
+#水平拼接图片
+img2 = cv2.hconcat([img0[:, 300:, :], img0[:, :300, :]])
+img2 = cv2.vconcat([img0[300:, :, :], img0[:300, :, :]])
+cv2.imshow('image', img2)
+cv2.waitKey(0)
+
+
 
 
 # 仿射函数cv2.warpAffine()接受三个参数，需要变换的原始图像，移动矩阵M 以及变换的图像大小
